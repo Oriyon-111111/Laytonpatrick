@@ -1,0 +1,37 @@
+:root {
+  --color-background: #f8f7f4;
+  --color-text-primary: #0d0d0d;
+  --color-text-body: #333333;
+  --color-text-muted: #66635f;
+  --color-rule: #c8c5bf;
+  --color-rule-dark: #8d8a85;
+  --color-button: #111111;
+  --color-button-hover: #252525;
+  --color-button-text: #ffffff;
+  --color-error: #8a2424;
+  --color-success: #295b39;
+
+  --content-max-width: 1312px;
+  --space-page-inline: 64px;
+  --space-section: 64px;
+
+  --font-display: var(--font-inter-tight), Arial, sans-serif;
+  --font-body: var(--font-inter), Arial, sans-serif;
+  --font-condensed: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
+
+  --transition-quick: 150ms ease;
+}
+
+@media (max-width: 1199px) {
+  :root {
+    --space-page-inline: 40px;
+    --space-section: 56px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --space-page-inline: 24px;
+    --space-section: 44px;
+  }
+}

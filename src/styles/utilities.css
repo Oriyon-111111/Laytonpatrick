@@ -1,0 +1,33 @@
+.siteContainer {
+  width: min(
+    var(--content-max-width),
+    calc(100% - (var(--space-page-inline) * 2))
+  );
+  margin-inline: auto;
+}
+
+.microLabel {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.skipLink {
+  position: fixed;
+  z-index: 100;
+  top: 12px;
+  left: 12px;
+  padding: 10px 14px;
+  color: var(--color-button-text);
+  background: var(--color-button);
+  transform: translateY(-150%);
+  transition: transform var(--transition-quick);
+}
+
+.skipLink:focus {
+  transform: translateY(0);
+}

@@ -1,0 +1,21 @@
+.rule {
+  height: 1px;
+  background: var(--color-rule);
+}
+
+.content {
+  padding-block: 32px 55px;
+}
+
+.body {
+  margin: 16px 0 0;
+  color: var(--color-text-body);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 767px) {
+  .content {
+    padding-block: 30px 36px;
+  }
+}
