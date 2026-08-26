@@ -1,0 +1,2989 @@
+# PRODUCT DESIGN REQUIREMENTS
+
+## LAYTON PATRICK — PRODUCTION COMPANY WEBSITE
+
+**Document status:** Final build specification
+**Version:** 1.1 — Microsoft 365 Email Revision
+**Production domain:** `https://laytonpatrick.com`
+**Local project root:** `C:\Users\layto\Laytonpatrick`
+**GitHub owner:** `Oriyon-111111`
+**GitHub repository:** `laytonpatrick`
+**Website host:** Vercel
+**Domain registrar / DNS manager:** GoDaddy
+**Business email provider:** Microsoft 365 / Exchange Online
+**Public contact email:** `Layton@laytonpatrick.com`
+**Website transactional email provider:** Resend
+**Transactional sending subdomain:** `forms.laytonpatrick.com`
+
+---
+
+# 1. PROJECT OBJECTIVE
+
+Build the official website for **Layton Patrick**, an independent film production company.
+
+This is deliberately **not** a conventional production-company slate website.
+
+The company is new and does not require a public slate at launch. The website must instead establish the company through:
+
+* prestige;
+* selectivity;
+* filmmaker-led development;
+* restraint;
+* seriousness;
+* international ambition;
+* premium independent cinema.
+
+The creative benchmark is the confidence and simplicity associated with premium independent film companies such as A24, while remaining an original Layton Patrick identity.
+
+The existing Layton Patrick material establishes a highly restrained visual system: narrow black wordmark, monochromatic typography, large negative space, thin rules and editorial layouts. The company website should continue that language rather than introduce a conventional corporate identity.
+
+---
+
+# 2. DESIGN SOURCE OF TRUTH
+
+Codex must treat the two approved website mockups as the **fixed visual designs**.
+
+They are:
+
+1. **ABOUT / HOME page**
+2. **CONTACT page**
+
+The mockups are not inspiration.
+
+They are the required visual compositions.
+
+Implementation may adapt only where necessary for:
+
+* browser responsiveness;
+* accessibility;
+* content reflow;
+* technical implementation;
+* different device sizes.
+
+Codex must **not creatively redesign them**.
+
+---
+
+# 3. NON-NEGOTIABLE VISUAL RULES
+
+Do not:
+
+* introduce additional colours;
+* use gradients;
+* use rounded cards;
+* use rounded buttons;
+* add shadows;
+* add decorative icons;
+* add poster galleries;
+* add a film slate;
+* add a carousel;
+* add testimonials;
+* add a team section;
+* add production statistics;
+* add press quotes;
+* add autoplay video;
+* add background video;
+* add film grain overlays;
+* add parallax;
+* add scroll-reveal effects;
+* add excessive animation;
+* replace supplied photography;
+* replace the supplied logo with typeset text;
+* add DEVELOPMENT to the navigation;
+* add a hamburger menu unless genuinely required at extremely narrow mobile widths.
+
+The desired effect is:
+
+**Understated. Expensive. Editorial. Assured.**
+
+---
+
+# 4. INFRASTRUCTURE ARCHITECTURE
+
+The production architecture is:
+
+```text
+GoDaddy
+Domain registration + authoritative DNS
+        │
+        ├──────── Microsoft 365
+        │         Business email
+        │         Layton@laytonpatrick.com
+        │
+        ├──────── Vercel
+        │         Website hosting
+        │         laytonpatrick.com
+        │
+        └──────── Resend
+                  Transactional form email only
+                  forms.laytonpatrick.com
+```
+
+### Responsibilities
+
+**GoDaddy**
+
+* domain registrar;
+* DNS management.
+
+**Microsoft 365**
+
+* permanent business mailbox;
+* receives mail for `@laytonpatrick.com`;
+* must remain operational throughout deployment.
+
+**Vercel**
+
+* website hosting;
+* production deployments;
+* preview deployments;
+* SSL.
+
+**Resend**
+
+* contact-form transactional sending only;
+* does not replace Microsoft 365;
+* does not host the business mailbox.
+
+---
+
+# 5. CRITICAL MICROSOFT 365 RULE
+
+`Layton@laytonpatrick.com` is already operational through Microsoft 365.
+
+This email configuration is **production infrastructure and must not be disrupted**.
+
+Codex must not:
+
+* delete Microsoft MX records;
+* replace Microsoft MX records;
+* edit Microsoft Autodiscover records unnecessarily;
+* replace the existing root SPF record;
+* change Microsoft DKIM records;
+* change existing DMARC records;
+* move the mailbox to Resend;
+* use Resend as an inbound mailbox;
+* change GoDaddy nameservers merely to deploy the website.
+
+Microsoft documents that the MX record determines where incoming mail is delivered and recommends the Microsoft 365 SPF record for Exchange Online. It also warns against creating multiple SPF records for the same domain.
+
+**Microsoft 365 email must continue working before, during and after website deployment.**
+
+---
+
+# 6. DNS SAFETY PROCEDURE
+
+Before making **any** DNS change at GoDaddy:
+
+1. Open GoDaddy DNS management for `laytonpatrick.com`.
+2. Capture screenshots of the complete DNS zone.
+3. Export DNS records if GoDaddy provides an export function.
+4. Record all existing:
+
+   * MX;
+   * TXT;
+   * CNAME;
+   * SRV;
+   * DKIM;
+   * DMARC records.
+5. Confirm `Layton@laytonpatrick.com` can send and receive mail.
+6. Only then add website-related DNS records.
+
+Do not delete an existing record merely because a new provider displays another record.
+
+---
+
+# 7. WEBSITE SITE MAP
+
+The initial website contains exactly two pages.
+
+## 7.1 ABOUT / HOME
+
+Production URL:
+
+```text
+https://laytonpatrick.com/
+```
+
+Route:
+
+```text
+/
+```
+
+This page is both:
+
+* homepage;
+* ABOUT page.
+
+There is no separate `/about` route.
+
+---
+
+## 7.2 CONTACT
+
+Production URL:
+
+```text
+https://laytonpatrick.com/contact
+```
+
+Route:
+
+```text
+/contact
+```
+
+---
+
+# 8. FUTURE DEVELOPMENT PAGE
+
+The architecture must support:
+
+```text
+/development
+```
+
+at a later date.
+
+However:
+
+**DO NOT BUILD IT NOW.**
+
+Do not:
+
+* create the route;
+* create a placeholder;
+* expose it in navigation;
+* include it in sitemap;
+* create an empty page.
+
+Future location:
+
+```text
+src/app/(site)/development/page.tsx
+```
+
+Future components:
+
+```text
+src/components/development/
+```
+
+The current architecture must allow that page to be added without restructuring the existing application.
+
+---
+
+# 9. HEADER NAVIGATION
+
+Header contains exactly:
+
+```text
+ABOUT
+CONTACT
+```
+
+Destinations:
+
+```text
+ABOUT   → /
+CONTACT → /contact
+```
+
+No other items.
+
+The same `SiteHeader` component must appear on both pages.
+
+---
+
+# 10. TECHNOLOGY STACK
+
+Use:
+
+* Next.js App Router;
+* React;
+* TypeScript;
+* Node.js LTS;
+* npm;
+* CSS Modules;
+* global CSS design tokens;
+* `next/font`;
+* `next/image`;
+* Zod;
+* Resend;
+* Vercel BotID Basic;
+* ESLint;
+* Playwright;
+* Git;
+* GitHub;
+* Vercel.
+
+Do not use:
+
+* WordPress;
+* Webflow;
+* Wix;
+* Squarespace;
+* Tailwind;
+* Bootstrap;
+* Material UI;
+* shadcn;
+* jQuery;
+* a CMS;
+* a database.
+
+The site is intentionally small enough that these systems are unnecessary.
+
+---
+
+# 11. LOCAL PROJECT ROOT
+
+The entire project must exist at:
+
+```text
+C:\Users\layto\Laytonpatrick
+```
+
+Do not build it inside:
+
+* Downloads;
+* Desktop;
+* OneDrive;
+* another repository;
+* `LocalFriendly`.
+
+---
+
+# 12. GITHUB
+
+GitHub account:
+
+```text
+Oriyon-111111
+```
+
+Create a new repository:
+
+```text
+laytonpatrick
+```
+
+Recommended visibility:
+
+```text
+Private
+```
+
+Repository URL:
+
+```text
+https://github.com/Oriyon-111111/laytonpatrick
+```
+
+Production branch:
+
+```text
+main
+```
+
+Do not place this site inside the existing `LocalFriendly` repository.
+
+---
+
+# 13. REQUIRED FOLDER ARCHITECTURE
+
+```text
+C:\Users\layto\Laytonpatrick
+│
+├── public
+│   └── images
+│       ├── brand
+│       │   └── layton-patrick-logo.png
+│       │
+│       ├── about
+│       │   └── about-hero.jpg
+│       │
+│       └── contact
+│           └── contact-studio.jpg
+│
+├── src
+│   ├── app
+│   │   ├── layout.tsx
+│   │   ├── globals.css
+│   │   ├── robots.ts
+│   │   ├── sitemap.ts
+│   │   │
+│   │   ├── (site)
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx
+│   │   │   │
+│   │   │   └── contact
+│   │   │       └── page.tsx
+│   │   │
+│   │   └── api
+│   │       └── contact
+│   │           └── route.ts
+│   │
+│   ├── components
+│   │   ├── layout
+│   │   │   ├── SiteHeader.tsx
+│   │   │   ├── SiteHeader.module.css
+│   │   │   ├── SiteFooter.tsx
+│   │   │   └── SiteFooter.module.css
+│   │   │
+│   │   ├── about
+│   │   │   ├── Hero.tsx
+│   │   │   ├── Hero.module.css
+│   │   │   ├── AboutStatement.tsx
+│   │   │   ├── AboutStatement.module.css
+│   │   │   ├── ApproachGrid.tsx
+│   │   │   ├── ApproachGrid.module.css
+│   │   │   ├── CurrentFocus.tsx
+│   │   │   └── CurrentFocus.module.css
+│   │   │
+│   │   ├── contact
+│   │   │   ├── ContactIntro.tsx
+│   │   │   ├── ContactDetails.tsx
+│   │   │   ├── ContactForm.tsx
+│   │   │   ├── ContactForm.module.css
+│   │   │   ├── ContactImage.tsx
+│   │   │   └── ContactPage.module.css
+│   │   │
+│   │   └── ui
+│   │       ├── ButtonLink.tsx
+│   │       └── SectionRule.tsx
+│   │
+│   ├── content
+│   │   └── site.ts
+│   │
+│   ├── lib
+│   │   ├── email.ts
+│   │   └── validation.ts
+│   │
+│   └── styles
+│       ├── tokens.css
+│       └── utilities.css
+│
+├── tests
+│   ├── about.spec.ts
+│   ├── contact.spec.ts
+│   └── visual.spec.ts
+│
+├── .env.example
+├── .env.local
+├── .gitignore
+├── eslint.config.mjs
+├── instrumentation-client.ts
+├── next.config.ts
+├── package.json
+├── package-lock.json
+├── playwright.config.ts
+├── tsconfig.json
+└── README.md
+```
+
+Future DEVELOPMENT page:
+
+```text
+src/app/(site)/development/page.tsx
+src/components/development/
+```
+
+No existing components should require refactoring when it is eventually added.
+
+---
+
+# 14. PROJECT CREATION
+
+PowerShell:
+
+```powershell
+cd C:\Users\layto
+mkdir Laytonpatrick
+cd Laytonpatrick
+```
+
+Create application:
+
+```powershell
+npx create-next-app@latest . --ts --eslint --app --src-dir --use-npm --import-alias "@/*" --no-tailwind
+```
+
+Install:
+
+```powershell
+npm install resend zod botid
+```
+
+Testing:
+
+```powershell
+npm install -D @playwright/test
+npx playwright install
+```
+
+---
+
+# 15. PRODUCTION ASSETS
+
+There are exactly three supplied visual assets:
+
+1. Layton Patrick logo;
+2. ABOUT photograph;
+3. CONTACT photograph.
+
+No stock imagery.
+
+No additional AI imagery.
+
+No substituted photography.
+
+---
+
+# 16. LOGO ASSET
+
+Production path:
+
+```text
+/public/images/brand/layton-patrick-logo.png
+```
+
+Required supplied master canvas:
+
+```text
+1200 × 300 px
+```
+
+Aspect ratio:
+
+```text
+4:1
+```
+
+Requirements:
+
+* transparent PNG;
+* sRGB;
+* clean edges;
+* no white baked-in background;
+* no watermark.
+
+If an original vector logo exists, preferred asset:
+
+```text
+layton-patrick-logo.svg
+```
+
+Use genuine artwork rather than recreating the wordmark with CSS or a font.
+
+### Desktop header
+
+Approximate rendered width:
+
+```text
+184px
+```
+
+### Footer
+
+Approximate rendered width:
+
+```text
+154px
+```
+
+### Mobile
+
+Approximate rendered width:
+
+```text
+138px
+```
+
+Always preserve aspect ratio.
+
+---
+
+# 17. ABOUT HERO IMAGE
+
+Production path:
+
+```text
+/public/images/about/about-hero.jpg
+```
+
+Master dimensions:
+
+```text
+2400 × 2400 px
+```
+
+Aspect:
+
+```text
+1:1
+```
+
+Colour profile:
+
+```text
+sRGB
+```
+
+Desktop display at reference viewport:
+
+approximately:
+
+```text
+668 × 668 CSS px
+```
+
+CSS:
+
+```css
+aspect-ratio: 1 / 1;
+object-fit: cover;
+object-position: center;
+```
+
+No:
+
+* rounded corners;
+* drop shadow;
+* colour filter.
+
+---
+
+# 18. CONTACT IMAGE
+
+Production path:
+
+```text
+/public/images/contact/contact-studio.jpg
+```
+
+Master dimensions:
+
+```text
+2880 × 800 px
+```
+
+Aspect ratio:
+
+```text
+18:5
+```
+
+Desktop display:
+
+approximately:
+
+```text
+1290 × 358 CSS px
+```
+
+CSS:
+
+```css
+aspect-ratio: 18 / 5;
+object-fit: cover;
+object-position: center;
+```
+
+Mobile can shift to approximately:
+
+```css
+aspect-ratio: 16 / 9;
+```
+
+to prevent an excessively shallow image.
+
+---
+
+# 19. DESIGN REFERENCE VIEWPORT
+
+Primary reference:
+
+```text
+1440 × 1800
+```
+
+Codex must first match the approved desktop mockups at this viewport.
+
+Responsive adaptations follow after desktop fidelity is achieved.
+
+---
+
+# 20. GLOBAL PAGE WIDTH
+
+Desktop maximum:
+
+```css
+--page-max: 1312px;
+```
+
+Desktop:
+
+```css
+width: min(1312px, calc(100% - 128px));
+margin-inline: auto;
+```
+
+Equivalent page gutters:
+
+```text
+64px
+```
+
+Tablet:
+
+```text
+40px
+```
+
+Mobile:
+
+```text
+24px
+```
+
+---
+
+# 21. COLOUR STYLE GUIDE
+
+```css
+:root {
+  --color-bg: #f8f7f4;
+  --color-text: #0d0d0d;
+  --color-body: #333333;
+  --color-muted: #66635f;
+  --color-rule: #c8c5bf;
+  --color-rule-dark: #8d8a85;
+
+  --color-button: #111111;
+  --color-button-hover: #252525;
+  --color-button-text: #ffffff;
+}
+```
+
+Dominant visual palette:
+
+* warm off-white;
+* black;
+* charcoal;
+* restrained grey.
+
+No accent colour.
+
+---
+
+# 22. FONT SYSTEM
+
+Use `next/font`.
+
+## Display
+
+**Inter Tight**
+
+Use for:
+
+* primary H1;
+* Contact H1;
+* large editorial headings.
+
+Weights:
+
+```text
+600
+700
+```
+
+---
+
+## General typography
+
+**Inter**
+
+Use for:
+
+* paragraphs;
+* navigation;
+* buttons;
+* form text;
+* contact details;
+* footer.
+
+Weights:
+
+```text
+400
+500
+600
+```
+
+---
+
+## Condensed headings
+
+**Barlow Condensed**
+
+Use for:
+
+```text
+DEVELOPMENT
+PACKAGING
+PRODUCTION
+```
+
+Weights:
+
+```text
+600
+700
+```
+
+The supplied Layton Patrick logo remains an image asset.
+
+Do not simulate it with Barlow Condensed.
+
+---
+
+# 23. ABOUT H1
+
+Text exactly:
+
+```text
+Prestige cinema.
+Distinctive voices.
+Enduring work.
+```
+
+Desktop:
+
+```css
+font-family: "Inter Tight";
+font-size: 72px;
+line-height: 0.95;
+font-weight: 700;
+letter-spacing: -0.045em;
+```
+
+---
+
+# 24. CONTACT H1
+
+Text:
+
+```text
+Contact.
+```
+
+Desktop:
+
+```css
+font-size: 88px;
+line-height: 0.92;
+font-weight: 700;
+letter-spacing: -0.05em;
+```
+
+---
+
+# 25. LARGE SECTION HEADINGS
+
+Example:
+
+```text
+Selective by design.
+```
+
+Style:
+
+```css
+font-size: 48px;
+line-height: 1;
+font-weight: 700;
+letter-spacing: -0.035em;
+```
+
+---
+
+# 26. BODY TEXT
+
+```css
+font-family: "Inter";
+font-size: 18px;
+line-height: 1.55;
+font-weight: 400;
+```
+
+---
+
+# 27. MICRO LABELS
+
+Examples:
+
+```text
+ABOUT
+APPROACH
+CURRENT FOCUS
+GENERAL ENQUIRIES
+LOCATION
+SEND A MESSAGE
+CONTACT
+```
+
+Style:
+
+```css
+font-size: 12px;
+font-weight: 600;
+letter-spacing: 0.14em;
+text-transform: uppercase;
+```
+
+---
+
+# 28. APPROACH HEADINGS
+
+```css
+font-family: "Barlow Condensed";
+font-size: 40px;
+line-height: 1;
+font-weight: 700;
+text-transform: uppercase;
+```
+
+---
+
+# 29. HEADER
+
+Shared component:
+
+```text
+src/components/layout/SiteHeader.tsx
+```
+
+Contents:
+
+```text
+LAYTON PATRICK LOGO                   ABOUT    CONTACT
+─────────────────────────────────────────────────────
+```
+
+Header is:
+
+* static;
+* not sticky;
+* transparent against page background;
+* shadow-free.
+
+Approximate desktop:
+
+```text
+top padding: 36px
+bottom padding before rule: 26px
+```
+
+Navigation gap:
+
+```css
+gap: 52px;
+```
+
+Navigation:
+
+```css
+font-size: 12px;
+letter-spacing: 0.05em;
+```
+
+Use `aria-current="page"`.
+
+---
+
+# 30. ABOUT PAGE HERO
+
+Two-column desktop grid.
+
+Suggested:
+
+```css
+grid-template-columns: 0.455fr 0.545fr;
+gap: 48px;
+```
+
+Hero begins approximately:
+
+```text
+80–90px
+```
+
+beneath the header rule.
+
+Left:
+
+* H1;
+* introductory text;
+* two CTAs.
+
+Right:
+
+* ABOUT photograph.
+
+Supporting copy exactly:
+
+> Layton Patrick is an independent production company focused on elevated, filmmaker-driven feature films from Australia with an international outlook.
+
+Maximum copy width:
+
+approximately:
+
+```text
+540px
+```
+
+---
+
+# 31. ABOUT CTA — COMPANY PROFILE
+
+Text:
+
+```text
+Company Profile →
+```
+
+Destination:
+
+```text
+#about
+```
+
+Desktop target:
+
+approximately:
+
+```text
+240 × 64 px
+```
+
+Style:
+
+* black;
+* white text;
+* square corners.
+
+```css
+border-radius: 0;
+```
+
+---
+
+# 32. ABOUT CTA — GET IN TOUCH
+
+Text:
+
+```text
+Get in Touch →
+```
+
+Destination:
+
+```text
+/contact
+```
+
+Transparent.
+
+Underline/rule treatment.
+
+Do not make it a second filled button.
+
+---
+
+# 33. ABOUT STATEMENT
+
+Anchor:
+
+```html
+id="about"
+```
+
+Label:
+
+```text
+ABOUT
+```
+
+Heading:
+
+```text
+Selective by design.
+```
+
+Paragraph exactly:
+
+> We partner with filmmakers whose vision is personal, ambitious and enduring. Our role is to nurture that vision through thoughtful development, inspired collaboration and precise execution—building films that travel internationally and leave a lasting cultural mark.
+
+Desktop uses two columns.
+
+---
+
+# 34. APPROACH SECTION
+
+Label:
+
+```text
+APPROACH
+```
+
+Three columns.
+
+## 01
+
+```text
+DEVELOPMENT
+```
+
+Copy:
+
+> Story-first. We develop projects with depth, clarity and long-term international potential.
+
+## 02
+
+```text
+PACKAGING
+```
+
+Copy:
+
+> We assemble the right creative and executive team to unlock each project's full potential.
+
+## 03
+
+```text
+PRODUCTION
+```
+
+Copy:
+
+> We champion a collaborative, disciplined process to deliver films of enduring quality.
+
+Use thin vertical rules between columns.
+
+Do not use cards or boxes.
+
+---
+
+# 35. CURRENT FOCUS
+
+Label:
+
+```text
+CURRENT FOCUS
+```
+
+Copy:
+
+```text
+Curated feature development. Full slate available on request.
+```
+
+No slate is displayed.
+
+---
+
+# 36. SHARED FOOTER
+
+Use one shared component:
+
+```text
+src/components/layout/SiteFooter.tsx
+```
+
+Desktop:
+
+### Left
+
+Layton Patrick logo.
+
+### Centre
+
+```text
+CONTACT
+
+Layton@laytonpatrick.com
+```
+
+Clickable:
+
+```text
+mailto:Layton@laytonpatrick.com
+```
+
+### Right
+
+```text
+Based in Australia
+Working internationally
+```
+
+No phone number.
+
+No `info@` address.
+
+---
+
+# 37. CONTACT INTRODUCTION
+
+Headline:
+
+```text
+Contact.
+```
+
+Supporting copy exactly:
+
+> Layton Patrick welcomes select enquiries relating to development, partnerships, and production.
+
+Maintain narrow line length and substantial whitespace.
+
+---
+
+# 38. CONTACT MAIN GRID
+
+Desktop:
+
+```css
+grid-template-columns: 36% 64%;
+```
+
+Use a thin vertical divider between:
+
+* company information;
+* contact form.
+
+No card backgrounds.
+
+---
+
+# 39. GENERAL ENQUIRIES
+
+Label:
+
+```text
+GENERAL ENQUIRIES
+```
+
+Email:
+
+```text
+Layton@laytonpatrick.com
+```
+
+Clickable mailto link.
+
+There is no PHONE block.
+
+---
+
+# 40. LOCATION
+
+Label:
+
+```text
+LOCATION
+```
+
+Copy:
+
+```text
+Based in Australia
+Working internationally
+```
+
+Below:
+
+```text
+Company profile and project
+materials available on request.
+```
+
+Spacing should match the final approved CONTACT mockup after removal of the former phone section.
+
+---
+
+# 41. CONTACT FORM
+
+Heading:
+
+```text
+SEND A MESSAGE
+```
+
+Fields:
+
+1. Name
+2. Email
+3. Subject
+4. Message
+
+Use understated underline fields.
+
+No boxed inputs.
+
+No rounded form fields.
+
+Every input must have an accessible label.
+
+---
+
+# 42. FORM VALIDATION
+
+## Name
+
+Required.
+
+```text
+2–80 characters
+```
+
+## Email
+
+Required.
+
+Valid email format.
+
+Maximum:
+
+```text
+254 characters
+```
+
+## Subject
+
+Required.
+
+```text
+2–120 characters
+```
+
+## Message
+
+Required.
+
+```text
+10–5000 characters
+```
+
+Trim whitespace before server processing.
+
+Validate client-side for usability and **again server-side** for security.
+
+---
+
+# 43. SEND BUTTON
+
+Text:
+
+```text
+Send Message →
+```
+
+Black rectangular button.
+
+Approximate desktop dimensions:
+
+```text
+280 × 64 px
+```
+
+During request:
+
+```text
+Sending…
+```
+
+Disable repeated submission.
+
+On success:
+
+```text
+Thank you. Your message has been sent.
+```
+
+No new page.
+
+No redirect.
+
+On failure:
+
+```text
+Something went wrong. Please try again or email Layton@laytonpatrick.com.
+```
+
+---
+
+# 44. PRIVACY COPY
+
+Display:
+
+```text
+We respect your privacy.
+Your details will never be shared.
+```
+
+No popup.
+
+No privacy modal.
+
+No cookie banner is required for the initial site because no advertising or behavioural analytics are included.
+
+---
+
+# 45. CONTACT FORM EMAIL ARCHITECTURE
+
+Browser:
+
+```text
+POST /api/contact
+```
+
+Server route:
+
+```text
+src/app/api/contact/route.ts
+```
+
+Processing:
+
+```text
+Visitor
+   │
+   ▼
+Contact form
+   │
+   ▼
+POST /api/contact
+   │
+   ├── Zod validation
+   ├── honeypot validation
+   ├── BotID validation
+   │
+   ▼
+Resend
+   │
+   ▼
+Layton@laytonpatrick.com
+Microsoft 365 Inbox
+```
+
+The browser never contacts Resend directly.
+
+---
+
+# 46. EMAIL RECIPIENT
+
+All valid website enquiries are delivered to:
+
+```text
+Layton@laytonpatrick.com
+```
+
+This mailbox remains hosted by Microsoft 365.
+
+---
+
+# 47. EMAIL SENDER
+
+Website-generated messages must **not** impersonate the visitor.
+
+Use:
+
+```text
+Layton Patrick Website <website@forms.laytonpatrick.com>
+```
+
+This is the technical sender.
+
+The visitor never needs to know or use this address.
+
+---
+
+# 48. REPLY-TO
+
+Set:
+
+```text
+Reply-To: {visitor email}
+```
+
+Therefore in Outlook / Microsoft 365:
+
+**Reply** should address the website visitor directly.
+
+Do not set the visitor's email as the `From` address.
+
+---
+
+# 49. EMAIL SUBJECT
+
+Use:
+
+```text
+[Layton Patrick Website] {visitor subject}
+```
+
+Example:
+
+```text
+[Layton Patrick Website] Development enquiry
+```
+
+---
+
+# 50. EMAIL BODY
+
+Use a simple branded HTML email with plain-text fallback.
+
+Include:
+
+```text
+NEW WEBSITE ENQUIRY
+
+Name:
+[visitor]
+
+Email:
+[visitor email]
+
+Subject:
+[subject]
+
+Message:
+[message]
+
+Submitted via:
+laytonpatrick.com/contact
+```
+
+Do not embed images.
+
+Do not use elaborate email templates.
+
+---
+
+# 51. NO VISITOR AUTORESPONSE
+
+Do not send an automatic confirmation email to the visitor.
+
+Successful browser confirmation is sufficient.
+
+This reduces:
+
+* unnecessary email volume;
+* spam exposure;
+* transactional complexity.
+
+---
+
+# 52. RESEND — ISOLATED SUBDOMAIN
+
+Resend must **not** authenticate the root domain for this project.
+
+Authenticate:
+
+```text
+forms.laytonpatrick.com
+```
+
+Resend itself recommends using a subdomain to isolate transactional sending reputation and intent.
+
+This deliberately separates:
+
+```text
+Microsoft 365:
+laytonpatrick.com
+```
+
+from:
+
+```text
+Resend:
+forms.laytonpatrick.com
+```
+
+---
+
+# 53. WHY THE SUBDOMAIN IS REQUIRED
+
+The production mailbox uses Microsoft 365.
+
+Microsoft currently expects its mail authentication at the root domain.
+
+Using:
+
+```text
+forms.laytonpatrick.com
+```
+
+for Resend means its SPF/DKIM configuration exists in a **separate DNS namespace** and does not require replacing the Microsoft 365 root SPF record.
+
+This is materially safer than attempting to configure two unrelated mail systems at `@`.
+
+Microsoft explicitly states that a domain should not have multiple SPF records.
+
+---
+
+# 54. RESEND DNS PROCEDURE
+
+In Resend:
+
+1. Create account.
+2. Add domain:
+
+```text
+forms.laytonpatrick.com
+```
+
+3. Resend will display authentication records.
+4. Copy those records exactly.
+5. Open GoDaddy DNS.
+6. Add only the records required for the Resend subdomain.
+7. Return to Resend.
+8. Verify SPF.
+9. Verify DKIM.
+10. Verify all required records before production sending.
+
+Resend currently requires SPF and DKIM verification and recommends subdomains for transactional sending.
+
+Resend also notes that verification records must be added exactly at the location generated in its dashboard.
+
+---
+
+# 55. RESEND DNS — DO NOT MODIFY MICROSOFT
+
+While adding Resend records:
+
+**DO NOT ALTER**
+
+```text
+@ MX
+```
+
+pointing to Microsoft 365.
+
+**DO NOT ALTER**
+
+the existing Microsoft root SPF TXT record.
+
+**DO NOT ALTER**
+
+```text
+autodiscover
+```
+
+Microsoft CNAME.
+
+**DO NOT ALTER**
+
+Microsoft DKIM selectors.
+
+The Resend records belong to the transactional subdomain only.
+
+---
+
+# 56. MICROSOFT 365 ROOT SPF
+
+The exact existing record must be preserved.
+
+A typical Microsoft 365 root SPF contains:
+
+```text
+include:spf.protection.outlook.com
+```
+
+but Codex must **inspect the existing DNS rather than replacing it with an example value**.
+
+Microsoft provides the actual required records for each configured domain through Microsoft 365 Admin Center → Settings → Domains.
+
+Existing working DNS takes precedence over examples in this PDR.
+
+---
+
+# 57. RESEND RETURN PATH
+
+Allow Resend to use the return-path configuration generated for the verified transactional domain.
+
+Do not manually force it onto:
+
+```text
+laytonpatrick.com
+```
+
+Resend commonly uses a `send` subdomain as part of its return-path configuration.
+
+With the selected sending domain this may therefore produce a structure similar to:
+
+```text
+send.forms.laytonpatrick.com
+```
+
+The exact DNS records shown by Resend at configuration time are authoritative.
+
+---
+
+# 58. ENVIRONMENT VARIABLES
+
+Create:
+
+```text
+.env.example
+```
+
+with:
+
+```env
+RESEND_API_KEY=
+CONTACT_TO_EMAIL=Layton@laytonpatrick.com
+CONTACT_FROM_EMAIL=Layton Patrick Website <website@forms.laytonpatrick.com>
+```
+
+Local secrets:
+
+```text
+.env.local
+```
+
+Never commit `.env.local`.
+
+Do not expose secrets using:
+
+```text
+NEXT_PUBLIC_
+```
+
+---
+
+# 59. EMAIL SECURITY
+
+Never commit:
+
+* Resend API key;
+* Microsoft 365 credentials;
+* Outlook credentials;
+* GoDaddy password;
+* GoDaddy API credentials;
+* GitHub personal tokens;
+* Vercel access tokens.
+
+The website does **not** need the password for:
+
+```text
+Layton@laytonpatrick.com
+```
+
+Resend delivers the message to Microsoft 365 just like an external sender.
+
+The application therefore requires **no Microsoft 365 credentials at all**.
+
+---
+
+# 60. SPAM PROTECTION
+
+Use two mechanisms.
+
+## Honeypot
+
+Invisible field:
+
+```text
+company
+```
+
+If populated:
+
+* reject submission;
+* do not send email.
+
+---
+
+## Vercel BotID Basic
+
+Protect:
+
+```text
+POST /api/contact
+```
+
+Do not apply site-wide.
+
+Blocked automated submission:
+
+```text
+HTTP 403
+```
+
+No email sent.
+
+---
+
+# 61. SERVER VALIDATION
+
+Use:
+
+```text
+Zod
+```
+
+Validate:
+
+* type;
+* length;
+* email;
+* honeypot;
+* bot status.
+
+Never trust browser validation alone.
+
+Visitor-provided content must be safely encoded before being inserted into HTML email.
+
+---
+
+# 62. CONTACT IMAGE PLACEMENT
+
+The supplied CONTACT image appears beneath the main contact grid.
+
+It remains visually secondary to the Contact content.
+
+Then show the shared footer.
+
+---
+
+# 63. RESPONSIVE DESIGN
+
+## Desktop
+
+```text
+≥1200px
+```
+
+Match approved mockups.
+
+---
+
+## Tablet
+
+```text
+768–1199px
+```
+
+Progressively reduce typography and spacing.
+
+---
+
+## Mobile
+
+```text
+<768px
+```
+
+### Header
+
+Retain:
+
+```text
+LOGO              ABOUT CONTACT
+```
+
+where possible.
+
+Avoid hamburger navigation because only two links exist.
+
+### ABOUT hero stack
+
+1. headline;
+2. paragraph;
+3. CTAs;
+4. photograph.
+
+### ABOUT statement
+
+Stack vertically.
+
+### APPROACH
+
+Stack three approaches vertically.
+
+Replace vertical rules with horizontal rules.
+
+### CONTACT
+
+Stack:
+
+1. Contact intro;
+2. General Enquiries;
+3. Location;
+4. form;
+5. photograph;
+6. footer.
+
+Do not attempt to preserve a compressed desktop two-column grid.
+
+---
+
+# 64. MOBILE ABOUT HEADLINE
+
+Approximately:
+
+```css
+font-size: 48px;
+line-height: 0.98;
+```
+
+Use responsive `clamp()` where appropriate.
+
+---
+
+# 65. CENTRAL SITE CONFIGURATION
+
+Create:
+
+```text
+src/content/site.ts
+```
+
+Example:
+
+```ts
+export const site = {
+  name: "Layton Patrick",
+  url: "https://laytonpatrick.com",
+  email: "Layton@laytonpatrick.com",
+
+  navigation: [
+    {
+      label: "ABOUT",
+      href: "/",
+    },
+    {
+      label: "CONTACT",
+      href: "/contact",
+    },
+  ],
+};
+```
+
+Use this file as the central source for:
+
+* navigation;
+* domain;
+* email;
+* core company information.
+
+Do not independently hardcode the email in numerous components.
+
+---
+
+# 66. SEO — HOME
+
+Title:
+
+```text
+Layton Patrick | Independent Film Production
+```
+
+Description:
+
+```text
+Layton Patrick is an independent Australian production company focused on elevated, filmmaker-driven feature films with an international outlook.
+```
+
+Canonical:
+
+```text
+https://laytonpatrick.com/
+```
+
+---
+
+# 67. SEO — CONTACT
+
+Title:
+
+```text
+Contact | Layton Patrick
+```
+
+Description:
+
+```text
+Contact Layton Patrick regarding development, partnerships and film production.
+```
+
+Canonical:
+
+```text
+https://laytonpatrick.com/contact
+```
+
+---
+
+# 68. SITEMAP
+
+Include only:
+
+```text
+https://laytonpatrick.com/
+https://laytonpatrick.com/contact
+```
+
+Do not include:
+
+```text
+/development
+```
+
+---
+
+# 69. ROBOTS
+
+Allow public indexing of:
+
+```text
+/
+```
+
+and:
+
+```text
+/contact
+```
+
+API routes do not need indexing.
+
+---
+
+# 70. DOMAIN CANONICALISATION
+
+Primary:
+
+```text
+https://laytonpatrick.com
+```
+
+Also configure:
+
+```text
+www.laytonpatrick.com
+```
+
+to redirect permanently to:
+
+```text
+https://laytonpatrick.com
+```
+
+Do not create duplicate indexed `www` and non-`www` sites.
+
+---
+
+# 71. VERCEL ACCOUNT
+
+Sign into Vercel using the GitHub account associated with:
+
+```text
+Oriyon-111111
+```
+
+No Vercel username is required by the application.
+
+No credentials should be supplied to Codex.
+
+Authorize the repository:
+
+```text
+Oriyon-111111/laytonpatrick
+```
+
+when prompted.
+
+---
+
+# 72. VERCEL PROJECT
+
+Create a new Vercel project.
+
+Import:
+
+```text
+Oriyon-111111/laytonpatrick
+```
+
+Framework:
+
+```text
+Next.js
+```
+
+Production branch:
+
+```text
+main
+```
+
+Vercel should automatically build production after merging/pushing to `main`.
+
+---
+
+# 73. VERCEL ENVIRONMENT VARIABLES
+
+In Vercel Project Settings, add:
+
+```text
+RESEND_API_KEY
+CONTACT_TO_EMAIL
+CONTACT_FROM_EMAIL
+```
+
+Production:
+
+```text
+CONTACT_TO_EMAIL=Layton@laytonpatrick.com
+```
+
+```text
+CONTACT_FROM_EMAIL=Layton Patrick Website <website@forms.laytonpatrick.com>
+```
+
+Do not place these values in committed source code where unnecessary.
+
+---
+
+# 74. CONNECT DOMAIN TO VERCEL
+
+After the site is working at its Vercel preview URL:
+
+Vercel:
+
+```text
+Project
+→ Settings
+→ Domains
+```
+
+Add:
+
+```text
+laytonpatrick.com
+```
+
+and:
+
+```text
+www.laytonpatrick.com
+```
+
+Because GoDaddy remains the external DNS provider, Vercel will tell the user which DNS records to create at GoDaddy. Vercel supports this external-DNS arrangement.
+
+---
+
+# 75. GODADDY WEBSITE DNS
+
+Use the exact DNS values displayed by the Layton Patrick Vercel project.
+
+Typical architecture:
+
+### Apex
+
+```text
+@
+A
+[Vercel supplied value]
+```
+
+### WWW
+
+```text
+www
+CNAME
+[Vercel supplied value]
+```
+
+Vercel currently documents general-purpose A and CNAME targets but specifically advises using the project-specific values it displays.
+
+Therefore:
+
+**Do not blindly hardcode example Vercel IP addresses from internet tutorials.**
+
+---
+
+# 76. DO NOT CHANGE NAMESERVERS
+
+Keep the existing authoritative nameservers unless there is an independently approved migration later.
+
+For this project:
+
+**GoDaddy continues managing DNS.**
+
+There is no need to delegate the entire domain to Vercel.
+
+This significantly reduces risk to Microsoft 365 email.
+
+Vercel confirms that third-party registered domains can continue managing DNS at the external provider.
+
+---
+
+# 77. SSL
+
+Once domain verification succeeds, Vercel should automatically issue the site's SSL certificate.
+
+Production must work at:
+
+```text
+https://laytonpatrick.com
+```
+
+HTTP must redirect to HTTPS.
+
+No certificate warnings are acceptable.
+
+---
+
+# 78. EMAIL REGRESSION CHECK AFTER DNS CHANGES
+
+Immediately after adding Vercel website records:
+
+Test Microsoft 365 again.
+
+### Test A
+
+External address → `Layton@laytonpatrick.com`
+
+Expected:
+
+email arrives.
+
+### Test B
+
+`Layton@laytonpatrick.com` → external address
+
+Expected:
+
+email sends successfully.
+
+### Test C
+
+Reply to received mail.
+
+Expected:
+
+normal operation.
+
+Website deployment is not considered safe until Microsoft 365 remains operational.
+
+---
+
+# 79. RESEND PRODUCTION TESTING
+
+After Resend DNS verifies:
+
+Submit site form.
+
+Expected flow:
+
+```text
+Visitor
+→ website
+→ Resend
+→ Microsoft 365
+→ Layton@laytonpatrick.com
+```
+
+Email sender:
+
+```text
+Layton Patrick Website
+<website@forms.laytonpatrick.com>
+```
+
+Reply-To:
+
+```text
+visitor@example.com
+```
+
+---
+
+# 80. CONTACT FORM TEST MATRIX
+
+## Test 1 — valid
+
+Submit all valid fields.
+
+Expected:
+
+* success state;
+* one email received.
+
+## Test 2 — Reply-To
+
+Open email in Outlook.
+
+Click Reply.
+
+Expected:
+
+recipient = visitor.
+
+## Test 3 — invalid email
+
+Expected:
+
+rejected.
+
+## Test 4 — missing name
+
+Expected:
+
+rejected.
+
+## Test 5 — missing message
+
+Expected:
+
+rejected.
+
+## Test 6 — honeypot
+
+Expected:
+
+no email.
+
+## Test 7 — bot block
+
+Expected:
+
+no email.
+
+## Test 8 — Resend failure
+
+Expected:
+
+controlled error.
+
+No application crash.
+
+## Test 9 — repeated button click
+
+Expected:
+
+only one submission while current request is pending.
+
+---
+
+# 81. NO SMTP LOGIN TO MICROSOFT 365
+
+The website must **not** log into:
+
+```text
+Layton@laytonpatrick.com
+```
+
+to send contact emails.
+
+Do not implement:
+
+* Microsoft SMTP AUTH;
+* Outlook password authentication;
+* Office 365 mailbox credentials;
+* Graph API email sending.
+
+These are unnecessary for this site's form.
+
+Resend sends externally into the Microsoft 365 mailbox.
+
+---
+
+# 82. ACCESSIBILITY
+
+Target WCAG AA.
+
+Requirements:
+
+* `<header>`;
+* `<nav>`;
+* `<main>`;
+* `<section>`;
+* `<footer>`;
+* single H1 per page;
+* logical headings;
+* form labels;
+* keyboard navigation;
+* visible focus states;
+* colour contrast;
+* `aria-live` form response;
+* no inaccessible placeholder-only inputs.
+
+Logo alt:
+
+```text
+Layton Patrick
+```
+
+Decorative photography may use:
+
+```text
+alt=""
+```
+
+---
+
+# 83. MOTION
+
+Allowed:
+
+* subtle underline transition;
+* tiny arrow movement;
+* slight button colour shift.
+
+Suggested maximum:
+
+```css
+transition: 150ms ease;
+```
+
+Do not add:
+
+* page transition animation;
+* scroll reveal;
+* parallax;
+* zoom photography;
+* animated menu;
+* animated typography.
+
+---
+
+# 84. PERFORMANCE
+
+Targets:
+
+```text
+Lighthouse Performance ≥ 90
+Accessibility ≥ 95
+Best Practices ≥ 95
+SEO ≥ 95
+```
+
+Target:
+
+```text
+LCP < 2.5s
+CLS < 0.1
+```
+
+ABOUT hero image:
+
+* priority loading;
+* responsive `sizes`.
+
+CONTACT photo:
+
+* standard/lazy loading.
+
+---
+
+# 85. IMAGE DELIVERY
+
+Use:
+
+```text
+next/image
+```
+
+Do not manually export numerous desktop/mobile copies unless visual QA reveals a genuine need.
+
+Example:
+
+```tsx
+<Image
+  src="/images/about/about-hero.jpg"
+  alt=""
+  fill
+  priority
+  sizes="(max-width: 767px) 100vw, 54vw"
+/>
+```
+
+---
+
+# 86. NO ANALYTICS AT LAUNCH
+
+Do not install:
+
+* Google Analytics;
+* Meta Pixel;
+* TikTok Pixel;
+* Hotjar;
+* advertising pixels;
+* behavioural trackers.
+
+This keeps initial privacy and deployment simple.
+
+Analytics can be added separately later.
+
+---
+
+# 87. NO CMS AT LAUNCH
+
+All copy remains source-controlled.
+
+Primary site content:
+
+```text
+src/content/site.ts
+```
+
+A CMS may be reconsidered if DEVELOPMENT eventually evolves into a substantial public slate.
+
+---
+
+# 88. GIT WORKFLOW
+
+Production:
+
+```text
+main
+```
+
+Suggested feature branches:
+
+```text
+feature/initial-build
+feature/contact-form
+feature/responsive-polish
+```
+
+Preview changes through Vercel before merging significant visual changes.
+
+---
+
+# 89. NPM SCRIPTS
+
+At minimum:
+
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test:e2e": "playwright test",
+    "test:visual": "playwright test tests/visual.spec.ts"
+  }
+}
+```
+
+---
+
+# 90. PLAYWRIGHT VIEWPORTS
+
+Test:
+
+```text
+390 × 844
+768 × 1024
+1024 × 1366
+1440 × 1800
+```
+
+Primary visual reference:
+
+```text
+1440 × 1800
+```
+
+---
+
+# 91. VISUAL QA
+
+Codex must compare screenshots against the approved page designs.
+
+Specifically inspect:
+
+* logo size;
+* top margins;
+* header spacing;
+* header rule;
+* H1 scale;
+* H1 line breaks;
+* paragraph width;
+* CTA dimensions;
+* photography crop;
+* section divider positions;
+* ABOUT grid proportions;
+* approach column proportions;
+* approach separators;
+* Current Focus spacing;
+* footer alignment;
+* Contact intro spacing;
+* Contact vertical rule;
+* left Contact blocks;
+* form underline lengths;
+* Send Message button;
+* privacy copy;
+* Contact photograph crop.
+
+Do not approve merely because the pages contain the correct copy.
+
+Visual fidelity is a requirement.
+
+---
+
+# 92. ABOUT ACCEPTANCE CRITERIA
+
+The ABOUT page is complete only when:
+
+* `/` works;
+* logo is genuine supplied artwork;
+* navigation contains only ABOUT / CONTACT;
+* exact H1 is used;
+* H1 line breaks resemble approved design;
+* introductory copy matches;
+* both CTAs work;
+* ABOUT photograph matches;
+* Selective by design section matches;
+* APPROACH contains exactly three areas;
+* no cards exist;
+* Current Focus matches;
+* footer matches;
+* public email is correct;
+* no phone number exists;
+* no `info@` email exists;
+* mobile version works;
+* no horizontal overflow.
+
+---
+
+# 93. CONTACT ACCEPTANCE CRITERIA
+
+The CONTACT page is complete only when:
+
+* `/contact` works;
+* header is identical to ABOUT header;
+* exact Contact headline appears;
+* exact introductory text appears;
+* General Enquiries uses `Layton@laytonpatrick.com`;
+* no phone number appears;
+* Location section matches;
+* form contains exactly required fields;
+* form styling matches approved design;
+* Contact photograph matches;
+* common footer matches;
+* form sends to Microsoft 365 inbox;
+* Reply-To is visitor;
+* no autoresponse is sent;
+* no Microsoft credentials exist in the application.
+
+---
+
+# 94. DNS ACCEPTANCE CRITERIA
+
+DNS work is complete only when:
+
+* GoDaddy remains registrar;
+* GoDaddy remains DNS provider;
+* Microsoft 365 MX records remain intact;
+* Microsoft 365 email continues functioning;
+* Vercel web records resolve;
+* `laytonpatrick.com` resolves;
+* `www.laytonpatrick.com` redirects correctly;
+* Resend subdomain verifies;
+* Resend does not alter root Microsoft SPF;
+* HTTPS works.
+
+---
+
+# 95. EMAIL ACCEPTANCE CRITERIA
+
+Email architecture is complete only when:
+
+```text
+Layton@laytonpatrick.com
+```
+
+continues sending/receiving through Microsoft 365.
+
+AND website enquiries successfully arrive there from:
+
+```text
+website@forms.laytonpatrick.com
+```
+
+AND Outlook Reply addresses:
+
+```text
+the visitor
+```
+
+rather than the transactional sender.
+
+---
+
+# 96. BUILD VERIFICATION
+
+Run:
+
+```powershell
+npm run lint
+npm run build
+npm run test:e2e
+```
+
+All must pass.
+
+No:
+
+* TypeScript errors;
+* hydration warnings;
+* browser console errors;
+* missing images;
+* broken navigation;
+* exposed secrets.
+
+---
+
+# 97. README REQUIREMENTS
+
+README must document:
+
+* project purpose;
+* stack;
+* local folder;
+* setup;
+* environment variables;
+* asset sizes;
+* development commands;
+* production build;
+* GitHub workflow;
+* Vercel deployment;
+* domain connection;
+* Microsoft 365 protection;
+* Resend setup;
+* transactional subdomain;
+* future DEVELOPMENT architecture.
+
+Include prominently:
+
+> `Layton@laytonpatrick.com` is hosted by Microsoft 365. Do not change the production Microsoft 365 MX, SPF, Autodiscover, DKIM or other mail records while configuring Vercel or Resend unless explicitly authorised.
+
+---
+
+# 98. FINAL DEPLOYMENT CHECKLIST
+
+* [ ] Project created at `C:\Users\layto\Laytonpatrick`
+* [ ] Git repository initialised
+* [ ] `Oriyon-111111/laytonpatrick` created
+* [ ] Three supplied image assets installed
+* [ ] ABOUT implemented
+* [ ] CONTACT implemented
+* [ ] Responsive implementation completed
+* [ ] Visual QA completed
+* [ ] Microsoft 365 DNS zone recorded before changes
+* [ ] Existing Microsoft email tested
+* [ ] Resend account created
+* [ ] `forms.laytonpatrick.com` added to Resend
+* [ ] Resend-generated subdomain DNS records added to GoDaddy
+* [ ] Resend domain verified
+* [ ] Microsoft root mail DNS untouched
+* [ ] Vercel account connected to GitHub
+* [ ] Repository imported to Vercel
+* [ ] Environment variables added
+* [ ] Vercel preview reviewed
+* [ ] `laytonpatrick.com` added to Vercel
+* [ ] `www.laytonpatrick.com` added
+* [ ] Vercel-specific website DNS records added at GoDaddy
+* [ ] GoDaddy nameservers retained
+* [ ] Microsoft 365 inbound mail retested
+* [ ] Microsoft 365 outbound mail retested
+* [ ] Website form tested
+* [ ] Reply-To tested
+* [ ] HTTPS verified
+* [ ] `www` redirect verified
+* [ ] Sitemap verified
+* [ ] `/development` does not exist publicly
+* [ ] Production deployment approved
+
+---
+
+# 99. FINAL SYSTEM ARCHITECTURE
+
+```text
+                         INTERNET
+                            │
+                            ▼
+                    LAYTONPATRICK.COM
+                            │
+                         GODADDY
+                  Registrar + DNS Manager
+                            │
+          ┌─────────────────┼──────────────────┐
+          │                 │                  │
+          ▼                 ▼                  ▼
+    MICROSOFT 365         VERCEL             RESEND
+      Email                Website       Transactional mail
+          │                 │                  │
+          │            ┌────┴────┐             │
+          │            │         │             │
+          │            /      /contact         │
+          │          ABOUT     CONTACT          │
+          │                     │               │
+          │                     ▼               │
+          │               /api/contact ─────────┘
+          │                                     │
+          └──────────► Layton@laytonpatrick.com ◄┘
+```
+
+Email authentication isolation:
+
+```text
+Business email:
+laytonpatrick.com
+        │
+        ▼
+Microsoft 365
+```
+
+```text
+Website transactional email:
+forms.laytonpatrick.com
+        │
+        ▼
+Resend
+```
+
+---
+
+# 100. FUTURE EXPANSION MODEL
+
+Later:
+
+```text
+/development
+```
+
+can be introduced through:
+
+```text
+src/app/(site)/development/page.tsx
+src/components/development/
+```
+
+Then update:
+
+```text
+src/content/site.ts
+```
+
+Navigation can become:
+
+```text
+ABOUT
+DEVELOPMENT
+CONTACT
+```
+
+only after explicit approval.
+
+No architectural rewrite should be required.
+
+---
+
+# 101. SCOPE — BUILD NOW
+
+Build:
+
+```text
+ABOUT / HOME
+CONTACT
+Shared header
+Shared footer
+Responsive layouts
+Contact API
+Server validation
+Bot protection
+Resend integration
+SEO
+Sitemap
+Robots
+Vercel deployment
+GoDaddy website DNS
+Microsoft 365-safe DNS architecture
+```
+
+---
+
+# 102. SCOPE — DO NOT BUILD NOW
+
+Do not build:
+
+```text
+DEVELOPMENT page
+Public project slate
+News
+Blog
+Team
+Careers
+Press section
+Newsletter
+Login
+User accounts
+Investor portal
+CMS
+Database
+Analytics
+Advertising tracking
+```
+
+---
+
+# 103. CODEX GOVERNING INSTRUCTION
+
+Give Codex this instruction before implementation:
+
+> Build the Layton Patrick production-company website strictly in accordance with this PDR and the approved ABOUT and CONTACT visual references. The visual references are fixed designs rather than inspiration. Do not introduce additional content, features, pages, imagery, colours or visual treatments without approval.
+>
+> The complete project must be rooted at `C:\Users\layto\Laytonpatrick`.
+>
+> Build only the ABOUT/home route `/` and CONTACT route `/contact`. Architect the shared application so `/development` can be added later without refactoring, but do not create or expose that route now.
+>
+> `Layton@laytonpatrick.com` is an existing production mailbox hosted by Microsoft 365. Microsoft 365 must remain the permanent business email system. Do not alter, delete, migrate or replace existing Microsoft 365 MX, SPF, DKIM, Autodiscover, DMARC or related production email DNS records without explicit approval.
+>
+> Resend must be used only for transactional website-form delivery and must authenticate the isolated subdomain `forms.laytonpatrick.com`. The website must not require or store Microsoft 365 credentials.
+>
+> GoDaddy remains the domain registrar and DNS provider. Vercel hosts the website. Do not change GoDaddy nameservers as part of normal deployment.
+>
+> Complete linting, production build, automated testing, desktop visual comparison, mobile visual comparison and email/DNS regression testing before considering the implementation finished.
+
+---
+
+# 104. FINAL PRINCIPLE
+
+The website should not attempt to make Layton Patrick appear large through volume.
+
+It should communicate confidence through **selectivity**.
+
+Two pages.
+
+Three images.
+
+Minimal language.
+
+Strong typography.
+
+Exceptional spacing.
+
+No unnecessary decoration.
+
+The restraint is the brand.
