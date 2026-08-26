@@ -32,7 +32,7 @@ jobs:
         id: deploy
         shell: bash
         run: |
-          preview_url="$(env -u CI -u GITHUB_ACTIONS npx --yes vercel@59.5.0 deploy --temporary --yes --no-color)"
+          preview_url="$(env -i HOME="${HOME}" PATH="${PATH}" TMPDIR="${RUNNER_TEMP}" npm_config_cache="${HOME}/.npm" npx --yes vercel@59.5.0 deploy --temporary --yes --no-color)"
           echo "url=${preview_url}" >> "${GITHUB_OUTPUT}"
           echo "### Temporary Vercel preview" >> "${GITHUB_STEP_SUMMARY}"
           echo "${preview_url}" >> "${GITHUB_STEP_SUMMARY}"
