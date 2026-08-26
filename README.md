@@ -33,6 +33,8 @@ npm run test:e2e
 npm run test:visual
 ```
 
+The retained full-page captures, asset hashes, manual comparison notes, accepted deviations, and explanation of intentional visual-test skips are documented in [Visual QA evidence](docs/visual-qa/README.md).
+
 Install Playwright's Chromium binary once on a new machine:
 
 ```powershell
