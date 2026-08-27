@@ -1,16 +1,16 @@
 .hero {
-  padding-block: 64px 44px;
+  padding-block: 32px 44px;
 }
 
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 0.455fr) minmax(0, 0.545fr);
   gap: 48px;
-  align-items: center;
+  align-items: start;
 }
 
 .copy {
-  padding-block: 12px;
+  padding: 50px 0 12px;
 }
 
 .heading {
@@ -18,7 +18,7 @@
   font-family: var(--font-display);
   font-size: 4.5rem;
   font-weight: 700;
-  line-height: 0.95;
+  line-height: 1.07;
   letter-spacing: -0.045em;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .introduction {
-  max-width: 540px;
+  max-width: 490px;
   margin: 36px 0 0;
   color: var(--color-text-body);
   font-size: 1.125rem;

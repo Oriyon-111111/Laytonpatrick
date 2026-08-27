@@ -1,5 +1,3 @@
-import { contactContent } from "@/content/site";
-
 import styles from "./ContactIntro.module.css";
 
 export function ContactIntro() {
@@ -9,7 +7,6 @@ export function ContactIntro() {
         <h1 className={styles.heading} id="contact-heading">
           Contact.
         </h1>
-        <p className={styles.body}>{contactContent.introduction}</p>
       </div>
     </section>
   );

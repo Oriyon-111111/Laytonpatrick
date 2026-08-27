@@ -18,9 +18,24 @@ test.describe("CONTACT page", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Contact." }),
     ).toBeVisible();
+    await expect(page.getByText("Layton Patrick welcomes select enquiries")).toHaveCount(0);
+    await expect(page.getByText("General Enquiries")).toHaveCount(0);
+    await expect(page.getByText("Based in Australia").first()).toBeVisible();
+    await expect(page.getByText("Working internationally").first()).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Layton@laytonpatrick.com" }).first(),
+      page.getByText("Company profile and project materials available on request."),
+    ).toBeVisible();
+
+    const main = page.getByRole("main");
+    await expect(
+      main.getByRole("link", { name: "Layton@laytonpatrick.com" }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("contentinfo").getByRole("link", {
+        name: "Layton@laytonpatrick.com",
+      }),
     ).toHaveAttribute("href", "mailto:Layton@laytonpatrick.com");
+    await expect(page.locator("main img")).toHaveAttribute("loading", "eager");
 
     const navigation = page.getByRole("navigation", {
       name: "Primary navigation",

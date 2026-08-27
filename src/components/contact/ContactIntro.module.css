@@ -1,5 +1,5 @@
 .section {
-  padding-top: 112px;
+  padding-top: 84px;
 }
 
 .heading {
@@ -11,14 +11,6 @@
   letter-spacing: -0.05em;
 }
 
-.body {
-  max-width: 410px;
-  margin: 52px 0 0;
-  color: var(--color-text-body);
-  font-size: 1.125rem;
-  line-height: 1.55;
-}
-
 @media (max-width: 1199px) {
   .section {
     padding-top: 72px;
@@ -26,10 +18,6 @@
 
   .heading {
     font-size: 4.75rem;
-  }
-
-  .body {
-    margin-top: 38px;
   }
 }
 
@@ -40,10 +28,5 @@
 
   .heading {
     font-size: clamp(3.5rem, 18vw, 4.5rem);
-  }
-
-  .body {
-    margin-top: 28px;
-    font-size: 1rem;
   }
 }

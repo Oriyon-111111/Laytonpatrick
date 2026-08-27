@@ -10,32 +10,32 @@ export const site = {
 } as const;
 
 export const aboutContent = {
-  headline: ["Prestige cinema.", "Distinctive voices.", "Enduring work."],
+  headline: ["Original stories.", "Distinctive voices.", "Enduring work."],
   introduction:
-    "Layton Patrick is an independent production company focused on elevated, filmmaker-driven feature films from Australia with an international outlook.",
+    "Layton Patrick is an independent Australian production company developing original, story-led feature films with artistic conviction and an international outlook.",
   statement: {
     heading: "Selective by design.",
     body:
-      "We partner with filmmakers whose vision is personal, ambitious and enduring. Our role is to nurture that vision through thoughtful development, inspired collaboration and precise execution—building films that travel internationally and leave a lasting cultural mark.",
+      "We develop original stories from within, guided by artistic instinct and the belief that great storytelling creates enduring value. We remain deeply involved from development through production, assembling the right creative voices around each project while protecting the integrity of the work at every stage.",
   },
   approaches: [
     {
       number: "01",
       heading: "DEVELOPMENT",
       body:
-        "Story-first. We develop projects with depth, clarity and long-term international potential.",
+        "We develop original IP in-house from an art-first belief that enduring value begins with great storytelling and artistic conviction.",
     },
     {
       number: "02",
       heading: "PACKAGING",
       body:
-        "We assemble the right creative and executive team to unlock each project's full potential.",
+        "We build each project around its needs, bringing together the specific creatives best suited to its voice and ambition.",
     },
     {
       number: "03",
       heading: "PRODUCTION",
       body:
-        "We champion a collaborative, disciplined process to deliver films of enduring quality.",
+        "We champion our own work with close creative oversight and deep integration across development, production and delivery.",
     },
   ],
   currentFocus:

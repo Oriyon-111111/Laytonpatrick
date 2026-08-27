@@ -12,6 +12,7 @@ export function ContactImage() {
             src="/images/contact/contact-studio.png"
             alt=""
             fill
+            loading="eager"
             sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1199px) calc(100vw - 80px), 1312px"
           />
         </div>
