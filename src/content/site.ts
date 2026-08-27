@@ -1,7 +1,7 @@
 export const site = {
   name: "Layton Patrick",
   url: "https://laytonpatrick.com",
-  email: "Layton@laytonpatrick.com",
+  email: "info@laytonpatrick.com",
   navigation: [
     { label: "ABOUT", href: "/" },
     { label: "CONTACT", href: "/contact" },
